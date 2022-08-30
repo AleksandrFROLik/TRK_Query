@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { IUser, ServerResponse } from '../../models/models';
+import { IRepo, IUser, ServerResponse } from '../../models/models';
 
 export const githubApi = createApi({
   reducerPath: 'github/api',
@@ -18,8 +18,14 @@ export const githubApi = createApi({
       }),
       transformResponse: (response: ServerResponse<IUser>) => response.items //модифицируем ответ (из response
       // достаеи только необходимые даннк
+    }),
+    getUserRepos: build.query<IRepo[],string>({
+      query: (username:string)=>({
+        url: `users/${username}/repos`
+      })
     })
   })
 })
 
-export const {useSearchUsersQuery} = githubApi
+export const {useSearchUsersQuery, useLazyGetUserReposQuery} = githubApi //Lazy говорит нам о том что данный
+// запрос будет выполнен не авоматически а когда нам будет необходимо

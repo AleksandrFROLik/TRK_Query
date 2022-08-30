@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchUsersQuery } from '../store/github/github.api';
+import { useLazyGetUserReposQuery, useSearchUsersQuery } from '../store/github/github.api';
 import { useDebounce } from '../hooks/debounce';
+import { RepoCard } from '../compnents/RepoCard';
 
 export const HomePage = () => {
 
   const [search, setSearch] = useState('')
   const [dropdown, setDropdown] = useState(false)
   const debounced = useDebounce(search)
+
   const {isLoading, isError, data} = useSearchUsersQuery(debounced, {
     skip: debounced.length < 3, // условия при котором запрос не выполняется
     refetchOnFocus: true, // обновление вкаладки если долго не использовалась
   })
 
+  const [fetchRepos, {isLoading:areReposLoading, data: reposData}] = useLazyGetUserReposQuery() // fetchRepos -
+  // функция для
+  // совершения запроса на сервер,
+  // второй элемент массива это объект со всеи свойствами как в useSearchUserQuery
+
   useEffect(() => {
     setDropdown(debounced.length > 3 && data?.length! > 0)
   }, [debounced, data])
+
+  const handleClick = (username: string) => {
+    fetchRepos(username)
+    setDropdown(false)
+  };
 
   return (
     <div className='flex justify-center pt-10 mx-auto h-screen w-screen'>
@@ -35,9 +47,14 @@ export const HomePage = () => {
           {data?.map(user => (
             <li key={user.id}
                 className='py-2 px-4 hover:bg-gray-500 hover:text-white transition-colors cursor-pointer'
+                onClick={()=>handleClick(user.login)}
             >{user.login}</li>
           ))}
         </ul>}
+        <div className='container'>
+          {areReposLoading && <p className='text-center'>Repos are loading...</p>}
+          {reposData?.map(repo =><RepoCard repo={repo} key={repo.id}/>)}
+        </div>
       </div>
     </div>
   );
