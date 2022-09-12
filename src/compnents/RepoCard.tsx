@@ -32,12 +32,12 @@ export const RepoCard = ({repo}: { repo: IRepo }) => {
         <p className='text-sm font-thin'>{repo?.description}</p>
 
         {!isFavourite && <button className=' py-2 px-4 mr-2 bg-yellow-400 rounded hover:shadow-md transition-all '
-                 onClick={addToFavourite}
+                                 onClick={addToFavourite}
         >ADD
         </button>}
 
         {isFavourite && <button className=' py-2 px-4 bg-red-400 rounded hover:shadow-md transition-all '
-                 onClick={removeFromFavourite}
+                                onClick={removeFromFavourite}
         >REMOVE
         </button>}
       </a>
