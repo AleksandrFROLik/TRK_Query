@@ -14,7 +14,7 @@ export const HomePage = () => {
     refetchOnFocus: true, // обновление вкаладки если долго не использовалась
   })
 
-  const [fetchRepos, {isLoading:areReposLoading, data: reposData}] = useLazyGetUserReposQuery() // fetchRepos -
+  const [fetchRepos, {isLoading: areReposLoading, data: reposData}] = useLazyGetUserReposQuery() // fetchRepos -
   // функция для
   // совершения запроса на сервер,
   // второй элемент массива это объект со всеи свойствами как в useSearchUserQuery
@@ -47,13 +47,13 @@ export const HomePage = () => {
           {data?.map(user => (
             <li key={user.id}
                 className='py-2 px-4 hover:bg-gray-500 hover:text-white transition-colors cursor-pointer'
-                onClick={()=>handleClick(user.login)}
+                onClick={() => handleClick(user.login)}
             >{user.login}</li>
           ))}
         </ul>}
         <div className='container'>
           {areReposLoading && <p className='text-center'>Repos are loading...</p>}
-          {reposData?.map(repo =><RepoCard repo={repo} key={repo.id}/>)}
+          {reposData?.map(repo => <RepoCard repo={repo} key={repo.id}/>)}
         </div>
       </div>
     </div>
