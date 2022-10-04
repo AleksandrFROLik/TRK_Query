@@ -8,7 +8,6 @@ export const App = () => {
   return (
     <>
       <Navigation/>
-      <Navigation/>
       <Routes>
         <Route path='/' element={<HomePage/>}/>
         <Route path='/favourites' element={<FavouritesPage/>}/>
