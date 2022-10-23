@@ -11,7 +11,6 @@ export const FavouritesPage = () => {
         {favourites.map(favourite => (
           <li key={favourite}>
             <a href={favourite} target='_blank'>{favourite}</a>
-            <a href={favourite} target='_blank'>{favourite}</a>
           </li>
         ))}
       </ul>
